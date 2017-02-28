@@ -40,7 +40,7 @@ class LearningAgent(Agent):
         # Update epsilon using a decay function of your choice
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0
-        self.epsilon = self.epsilon-0.01
+        self.epsilon = self.epsilon-0.001
         
         if(testing):
         	self.epsilon = 0
@@ -138,7 +138,8 @@ class LearningAgent(Agent):
         ###########
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
-        self.Q[state][action] += self.alpha*reward 
+        if(self.learning == True):
+        	self.Q[state][action] = self.alpha*reward + (1 - self.alpha)*self.Q[state][action]
 
         return None
 
@@ -201,7 +202,7 @@ def run():
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test = 10, tolerance = 0.01)
+    sim.run(n_test = 10, tolerance = 0.005)
 
 
 if __name__ == '__main__':
